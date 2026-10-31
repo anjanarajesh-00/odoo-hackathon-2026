@@ -70,12 +70,32 @@ export class PaymentService {
       filter.customerId = currentUser.customerId;
     }
 
-    const { payments, total } = await paymentRepository.findAll(filter);
+    const { payments, total, totalAmount } = await paymentRepository.findAll(filter);
     return {
-      data: payments.map(formatPaymentResponse),
+      data: payments.map((p: any) => ({
+        id: p.id,
+        invoiceId: p.invoice_id,
+        invoice: {
+          id: p.invoice_id,
+          number: p.invoice_number || p.invoice_id,
+        },
+        customer: {
+          id: p.customer_id || p.invoice_customer_id || '',
+          name: p.customer_name || 'Customer',
+        },
+        method: p.method,
+        amount: Number(p.amount),
+        date: p.date,
+        note: p.note || null,
+        createdAt: p.created_at ? new Date(p.created_at).toISOString() : '',
+      })),
       total,
       page: query.page,
       pageSize: query.pageSize,
+      summary: {
+        count: total,
+        totalAmount: Math.round(totalAmount * 100) / 100,
+      },
     };
   }
 }
