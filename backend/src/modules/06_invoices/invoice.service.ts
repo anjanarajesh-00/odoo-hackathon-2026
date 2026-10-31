@@ -150,7 +150,8 @@ export class InvoiceService {
           amount_paid: 0,
           balance,
         },
-        invoiceLinesToInsert
+        invoiceLinesToInsert,
+        discountEval.appliedDiscountId
       );
 
       // Advance next_invoice_date on subscription
