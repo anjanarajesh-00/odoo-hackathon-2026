@@ -9,9 +9,9 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "migrate:make": "knex --knexfile knexfile.ts migrate:make -x ts",
-    "migrate": "knex --knexfile knexfile.ts migrate:latest",
-    "migrate:rollback": "knex --knexfile knexfile.ts migrate:rollback",
-    "seed": "knex --knexfile knexfile.ts seed:run",
+    "migrate": "tsx src/scripts/migrate.ts",
+    "migrate:rollback": "tsx src/scripts/rollback.ts",
+    "seed": "tsx src/scripts/seed.ts",
     "db:test": "tsx src/scripts/testConnection.ts"
   },
   "keywords": [
