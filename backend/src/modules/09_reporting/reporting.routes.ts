@@ -23,4 +23,8 @@ router.get('/overdue-invoices', authorize('admin', 'staff'), (req, res, next) =>
   reportingController.getOverdueInvoices(req, res, next)
 );
 
+router.get('/insights', authorize('admin', 'staff'), (req, res, next) =>
+  reportingController.getInsights(req, res, next)
+);
+
 export default router;

@@ -20,3 +20,24 @@ export const overdueInvoicesQuerySchema = z.object({
 export type DashboardSummaryQueryDto = z.infer<typeof dashboardSummaryQuerySchema>;
 export type RevenueTrendQueryDto = z.infer<typeof revenueTrendQuerySchema>;
 export type OverdueInvoicesQueryDto = z.infer<typeof overdueInvoicesQuerySchema>;
+
+export interface ForecastItem {
+  period: string;
+  revenue: number;
+  isForecast: boolean;
+}
+
+export interface AtRiskInvoiceItem {
+  invoiceId: string;
+  number: string;
+  customer: string;
+  balance: number;
+  riskScore: number;
+  reason: string;
+}
+
+export interface DashboardInsightsResponse {
+  forecast: ForecastItem[];
+  atRiskInvoices: AtRiskInvoiceItem[];
+  summaryText: string;
+}

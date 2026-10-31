@@ -46,6 +46,15 @@ export class ReportingController {
       next(error);
     }
   }
+
+  async getInsights(_req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const insights = await reportingService.getInsights();
+      sendSuccess(res, insights);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const reportingController = new ReportingController();
