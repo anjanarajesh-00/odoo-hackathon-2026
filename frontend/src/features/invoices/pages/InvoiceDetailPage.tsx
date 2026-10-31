@@ -255,11 +255,11 @@ export const InvoiceDetailPage: React.FC = () => {
             <p className="text-sm font-bold text-foreground">
               Balance:{" "}
               <span className={inv.balance > 0 ? "text-rose-600" : "text-emerald-600"}>
-                {formatCurrency(inv.balance)}
+                <span className="font-mono tabular-nums">{formatCurrency(inv.balance)}</span>
               </span>
             </p>
             <p className="text-muted-foreground">
-              Amount Paid: {formatCurrency(inv.amountPaid)}
+              Amount Paid: <span className="font-mono tabular-nums">{formatCurrency(inv.amountPaid)}</span>
             </p>
           </div>
         </div>
@@ -318,7 +318,7 @@ export const InvoiceDetailPage: React.FC = () => {
             <div className="flex items-center justify-between text-muted-foreground">
               <span>Subtotal:</span>
               <span className="font-semibold text-foreground">
-                {formatCurrency(inv.subtotal)}
+                <span className="font-mono tabular-nums">{formatCurrency(inv.subtotal)}</span>
               </span>
             </div>
             {inv.discountTotal > 0 && (
@@ -332,23 +332,23 @@ export const InvoiceDetailPage: React.FC = () => {
             <div className="flex items-center justify-between text-muted-foreground">
               <span>Total Tax:</span>
               <span className="font-semibold text-foreground">
-                {formatCurrency(inv.taxTotal)}
+                <span className="font-mono tabular-nums">{formatCurrency(inv.taxTotal)}</span>
               </span>
             </div>
-            <div className="flex items-center justify-between pt-2 border-t border-border text-sm font-bold text-foreground">
-              <span>Total:</span>
-              <span className="text-foreground">{formatCurrency(inv.total)}</span>
+            <div className="flex items-center justify-between pt-2 border-t border-border">
+              <span className="text-sm font-medium text-ink-primary">Total:</span>
+              <span className="font-serif text-[28px] leading-tight text-ink-primary">{formatCurrency(inv.total)}</span>
             </div>
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>Amount Paid:</span>
               <span className="font-semibold text-foreground">
-                {formatCurrency(inv.amountPaid)}
+                <span className="font-mono tabular-nums">{formatCurrency(inv.amountPaid)}</span>
               </span>
             </div>
             <div className="flex items-center justify-between pt-1 border-t border-dashed border-border text-sm font-extrabold">
               <span className="text-foreground">Balance Due:</span>
               <span className={inv.balance > 0 ? "text-rose-600" : "text-emerald-600"}>
-                {formatCurrency(inv.balance)}
+                <span className="font-mono tabular-nums">{formatCurrency(inv.balance)}</span>
               </span>
             </div>
           </div>
@@ -356,7 +356,7 @@ export const InvoiceDetailPage: React.FC = () => {
       </div>
 
       {/* Real Payments Section */}
-      <div className="bg-card border border-border rounded-xl p-6 shadow-sm space-y-4">
+      <div className="bg-card border border-border rounded-container p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
           <div className="flex items-center gap-2">
             <CreditCard className="w-4 h-4 text-primary" />
@@ -374,7 +374,7 @@ export const InvoiceDetailPage: React.FC = () => {
               </span>
             ) : inv.amountPaid > 0 ? (
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">
-                Partially paid: {formatCurrency(inv.amountPaid)} of {formatCurrency(inv.total)}
+                Partially paid: <span className="font-mono tabular-nums">{formatCurrency(inv.amountPaid)}</span> of {formatCurrency(inv.total)}
               </span>
             ) : (
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-muted text-muted-foreground border border-border">
@@ -424,7 +424,7 @@ export const InvoiceDetailPage: React.FC = () => {
                     Total Paid:
                   </td>
                   <td className="py-2.5 px-3 text-right text-emerald-600">
-                    {formatCurrency(inv.amountPaid)}
+                    <span className="font-mono tabular-nums">{formatCurrency(inv.amountPaid)}</span>
                   </td>
                 </tr>
                 <tr>
@@ -436,7 +436,7 @@ export const InvoiceDetailPage: React.FC = () => {
                       inv.balance > 0 ? "text-rose-600" : "text-emerald-600"
                     }`}
                   >
-                    {formatCurrency(inv.balance)}
+                    <span className="font-mono tabular-nums">{formatCurrency(inv.balance)}</span>
                   </td>
                 </tr>
               </tfoot>
