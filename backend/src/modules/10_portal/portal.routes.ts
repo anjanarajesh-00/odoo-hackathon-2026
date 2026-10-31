@@ -12,3 +12,4 @@ router.get('/summary', authorize('customer'), (req, res, next) =>
 );
 
 export default router;
+
