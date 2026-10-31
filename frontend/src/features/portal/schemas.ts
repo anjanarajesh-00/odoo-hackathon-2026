@@ -5,3 +5,4 @@ export interface PortalSummary {
   nextInvoiceDate: string | null;
   nextInvoiceAmount: number;
 }
+

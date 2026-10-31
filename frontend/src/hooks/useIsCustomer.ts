@@ -4,3 +4,4 @@ export function useIsCustomer(): boolean {
   const role = useAuthStore((s) => s.role);
   return role === "customer";
 }
+

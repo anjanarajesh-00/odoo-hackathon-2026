@@ -54,3 +54,4 @@ export const portalHandlers = [
     return HttpResponse.json({ data: summary });
   }),
 ];
+
