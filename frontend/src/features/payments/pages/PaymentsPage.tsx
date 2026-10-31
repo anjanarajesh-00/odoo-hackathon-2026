@@ -48,9 +48,10 @@ export const PaymentsPage: React.FC = () => {
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "date",
+      meta: { align: "right" },
       header: "Payment Date",
       cell: ({ row }) => (
-        <span className="font-medium text-foreground">
+        <span className="font-mono tabular-nums text-ink-secondary">
           {formatDate(row.original.date)}
         </span>
       ),
@@ -64,7 +65,7 @@ export const PaymentsPage: React.FC = () => {
             e.stopPropagation();
             navigate(`/invoices/${row.original.invoiceId}`);
           }}
-          className="font-semibold text-primary hover:underline cursor-pointer"
+          className="font-mono font-medium text-brand-verdigris hover:underline cursor-pointer"
         >
           {row.original.invoice.number}
         </span>
@@ -94,9 +95,10 @@ export const PaymentsPage: React.FC = () => {
     },
     {
       accessorKey: "amount",
+      meta: { align: "right" },
       header: "Amount Paid",
       cell: ({ row }) => (
-        <span className="font-bold text-emerald-600">
+        <span className="font-mono tabular-nums font-medium text-brand-verdigris">
           {formatCurrency(row.original.amount)}
         </span>
       ),
@@ -123,33 +125,23 @@ export const PaymentsPage: React.FC = () => {
       />
 
       {/* Filtered Total Summary Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-card border border-border rounded-xl">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
-            <Receipt className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-xs uppercase font-semibold text-muted-foreground">
-              Total Payments Recorded
-            </span>
-            <p className="text-xl font-black text-foreground">
-              {data?.total || 0}
-            </p>
-          </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-card border border-border rounded-container">
+        <div>
+          <span className="text-xs font-medium text-ink-secondary">
+            Total Payments Recorded
+          </span>
+          <p className="text-xl font-mono tabular-nums font-medium text-ink-primary">
+            {data?.total || 0}
+          </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
-            <CreditCard className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-xs uppercase font-semibold text-muted-foreground">
-              Filtered Collection Volume
-            </span>
-            <p className="text-xl font-black text-emerald-600">
-              {data?.totalAmount !== undefined ? formatCurrency(data.totalAmount) : "—"}
-            </p>
-          </div>
+        <div>
+          <span className="text-xs font-medium text-ink-secondary">
+            Filtered Collection Volume
+          </span>
+          <p className="text-xl font-mono tabular-nums font-medium text-brand-verdigris">
+            {data?.totalAmount !== undefined ? formatCurrency(data.totalAmount) : "—"}
+          </p>
         </div>
       </div>
 

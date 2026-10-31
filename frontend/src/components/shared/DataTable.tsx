@@ -62,26 +62,35 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
+      <div className="rounded-container border border-border bg-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-muted/50 text-muted-foreground text-xs uppercase tracking-wider font-semibold border-b border-border">
+            <thead className="bg-recessed text-ink-secondary text-xs font-medium border-b border-border">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     const canSort = header.column.getCanSort();
                     const sortDirection = header.column.getIsSorted();
+                    const meta = header.column.columnDef.meta as { align?: "left" | "right" | "center" } | undefined;
+                    const align = meta?.align;
 
                     return (
                       <th
                         key={header.id}
                         className={cn(
-                          "px-4 py-3 select-none",
+                          "px-4 py-3 select-none font-medium",
+                          align === "right" ? "text-right" : align === "center" ? "text-center" : "text-left",
                           canSort && "cursor-pointer hover:bg-muted transition-colors"
                         )}
                         onClick={header.column.getToggleSortingHandler()}
                       >
-                        <div className="flex items-center gap-1.5">
+                        <div
+                          className={cn(
+                            "flex items-center gap-1.5",
+                            align === "right" && "justify-end",
+                            align === "center" && "justify-center"
+                          )}
+                        >
                           {flexRender(
                             header.column.columnDef.header,
                             header.getContext()
@@ -110,11 +119,22 @@ export function DataTable<TData, TValue>({
                 // Skeleton loading rows
                 Array.from({ length: 5 }).map((_, rIdx) => (
                   <tr key={`skeleton-${rIdx}`} className="animate-pulse">
-                    {columns.map((_, cIdx) => (
-                      <td key={`sc-${cIdx}`} className="px-4 py-3.5">
-                        <div className="h-4 bg-muted rounded w-3/4" />
-                      </td>
-                    ))}
+                    {columns.map((col, cIdx) => {
+                      const meta = col.meta as { align?: "left" | "right" | "center" } | undefined;
+                      return (
+                        <td
+                          key={`sc-${cIdx}`}
+                          className={cn("px-4 py-3.5", meta?.align === "right" && "text-right")}
+                        >
+                          <div
+                            className={cn(
+                              "h-4 bg-muted rounded-control w-3/4",
+                              meta?.align === "right" && "ml-auto"
+                            )}
+                          />
+                        </td>
+                      );
+                    })}
                   </tr>
                 ))
               ) : data.length === 0 ? (
@@ -133,14 +153,27 @@ export function DataTable<TData, TValue>({
                       onRowClick && "cursor-pointer"
                     )}
                   >
-                    {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="px-4 py-3 text-foreground">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </td>
-                    ))}
+                    {row.getVisibleCells().map((cell) => {
+                      const meta = cell.column.columnDef.meta as { align?: "left" | "right" | "center" } | undefined;
+                      return (
+                        <td
+                          key={cell.id}
+                          className={cn(
+                            "px-4 py-3 text-foreground",
+                            meta?.align === "right"
+                              ? "text-right"
+                              : meta?.align === "center"
+                              ? "text-center"
+                              : "text-left"
+                          )}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </td>
+                      );
+                    })}
                   </tr>
                 ))
               )}
@@ -151,7 +184,7 @@ export function DataTable<TData, TValue>({
 
       {/* Pagination Footer */}
       {pagination && onPaginationChange && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground px-1">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-ink-secondary px-1">
           <div>
             Showing <span className="font-medium text-foreground">{fromRecord}</span> to{" "}
             <span className="font-medium text-foreground">{toRecord}</span> of{" "}
@@ -164,7 +197,7 @@ export function DataTable<TData, TValue>({
               onChange={(e) =>
                 onPaginationChange({ page: 1, pageSize: Number(e.target.value) })
               }
-              className="text-xs bg-card border border-border rounded-md px-2 py-1 text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+              className="text-xs bg-card border border-border rounded-control px-2 py-1 text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
             >
               <option value={10}>10 per page</option>
               <option value={20}>20 per page</option>
@@ -176,13 +209,13 @@ export function DataTable<TData, TValue>({
               onClick={() =>
                 onPaginationChange({ page: currentPage - 1, pageSize })
               }
-              className="p-1.5 rounded-md border border-border bg-card text-foreground disabled:opacity-40 disabled:cursor-not-allowed hover:bg-muted transition-colors"
+              className="p-1.5 rounded-control border border-border bg-card text-foreground disabled:opacity-40 disabled:cursor-not-allowed hover:bg-muted transition-colors"
               aria-label="Previous Page"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
 
-            <span className="text-xs px-2 font-medium text-foreground">
+            <span className="text-xs px-2 font-mono tabular-nums font-medium text-foreground">
               {currentPage} / {totalPages}
             </span>
 
@@ -191,7 +224,7 @@ export function DataTable<TData, TValue>({
               onClick={() =>
                 onPaginationChange({ page: currentPage + 1, pageSize })
               }
-              className="p-1.5 rounded-md border border-border bg-card text-foreground disabled:opacity-40 disabled:cursor-not-allowed hover:bg-muted transition-colors"
+              className="p-1.5 rounded-control border border-border bg-card text-foreground disabled:opacity-40 disabled:cursor-not-allowed hover:bg-muted transition-colors"
               aria-label="Next Page"
             >
               <ChevronRight className="w-4 h-4" />
@@ -202,4 +235,3 @@ export function DataTable<TData, TValue>({
     </div>
   );
 }
-

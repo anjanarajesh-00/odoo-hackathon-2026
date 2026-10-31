@@ -124,7 +124,7 @@ export const InvoicesPage: React.FC = () => {
       accessorKey: "number",
       header: "Invoice #",
       cell: ({ row }) => (
-        <span className="font-semibold text-primary hover:underline cursor-pointer">
+        <span className="font-mono font-medium text-brand-verdigris hover:underline cursor-pointer">
           {row.original.number}
         </span>
       ),
@@ -152,7 +152,7 @@ export const InvoicesPage: React.FC = () => {
         <Link
           to={`/subscriptions/${row.original.subscriptionId}`}
           onClick={(e) => e.stopPropagation()}
-          className="text-xs font-semibold text-foreground hover:text-primary hover:underline"
+          className="font-mono text-xs font-medium text-ink-primary hover:text-brand-verdigris hover:underline"
         >
           {row.original.subscription.number}
         </Link>
@@ -160,16 +160,18 @@ export const InvoicesPage: React.FC = () => {
     },
     {
       accessorKey: "invoiceDate",
+      meta: { align: "right" },
       header: "Invoice Date",
       cell: ({ row }) => (
-        <span className="text-muted-foreground">{formatDate(row.original.invoiceDate)}</span>
+        <span className="font-mono tabular-nums text-ink-secondary">{formatDate(row.original.invoiceDate)}</span>
       ),
     },
     {
       accessorKey: "dueDate",
+      meta: { align: "right" },
       header: "Due Date",
       cell: ({ row }) => (
-        <span className="text-muted-foreground">{formatDate(row.original.dueDate)}</span>
+        <span className="font-mono tabular-nums text-ink-secondary">{formatDate(row.original.dueDate)}</span>
       ),
     },
     {
@@ -184,22 +186,24 @@ export const InvoicesPage: React.FC = () => {
     },
     {
       accessorKey: "total",
+      meta: { align: "right" },
       header: "Total",
       cell: ({ row }) => (
-        <span className="font-semibold text-foreground">
+        <span className="font-mono tabular-nums font-medium text-ink-primary">
           {formatCurrency(row.original.total)}
         </span>
       ),
     },
     {
       accessorKey: "balance",
+      meta: { align: "right" },
       header: "Balance",
       cell: ({ row }) => {
         const bal = row.original.balance;
         return (
           <span
-            className={`font-bold ${
-              bal > 0 ? "text-rose-600" : "text-emerald-600"
+            className={`font-mono tabular-nums font-medium ${
+              bal > 0 ? "text-danger-cinnabar" : "text-brand-verdigris"
             }`}
           >
             {formatCurrency(bal)}
