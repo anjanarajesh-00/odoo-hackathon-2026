@@ -260,6 +260,10 @@ export class InvoiceService {
     const inv = await invoiceRepository.findById(id);
     if (!inv) throw AppError.notFound(`Invoice "${id}" not found`);
 
+    if (inv.status === 'draft') {
+      throw AppError.conflict('Cannot send a draft invoice. Please confirm the invoice first.');
+    }
+
     console.log(`\n📧 [Invoice Dispatched] Invoice ${inv.number} sent to customer ${inv.customer.name}\n`);
     return { message: `Invoice ${inv.number} has been emailed to the customer.` };
   }

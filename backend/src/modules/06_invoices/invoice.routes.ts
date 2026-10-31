@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { invoiceController } from './invoice.controller.js';
 import { authenticate, authorize } from '../01_auth/auth.middleware.js';
+import { paymentController } from '../08_payments/payment.controller.js';
 
 const router = Router();
 
@@ -31,12 +32,15 @@ router.post('/:id/confirm', authorize('admin', 'staff'), (req, res, next) =>
   invoiceController.confirm(req, res, next)
 );
 
+// Send invoice to customer (admin, staff)
+router.post('/:id/send', authorize('admin', 'staff'), (req, res, next) =>
+  invoiceController.send(req, res, next)
+);
+
 // Cancel invoice (admin, staff)
 router.post('/:id/cancel', authorize('admin', 'staff'), (req, res, next) =>
   invoiceController.cancel(req, res, next)
 );
-
-import { paymentController } from '../08_payments/payment.controller.js';
 
 // Record payment against an invoice (admin, staff)
 router.post('/:id/payments', authorize('admin', 'staff'), (req, res, next) =>
