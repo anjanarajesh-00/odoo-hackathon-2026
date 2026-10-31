@@ -48,7 +48,7 @@ export function useSubscriptionsByStatus(range: DashboardDateRange) {
   return useQuery({
     queryKey: ["dashboard", "subscriptions-by-status", range],
     queryFn: async () => {
-      const res = await apiClient.get<{ data: SubscriptionsByStatusItem[] }>(
+      const res = await apiClient.get<any>(
         "/dashboard/subscriptions-by-status",
         {
           params: {
@@ -57,7 +57,15 @@ export function useSubscriptionsByStatus(range: DashboardDateRange) {
           },
         }
       );
-      return res.data.data;
+      const raw = res.data?.data || res.data;
+      if (Array.isArray(raw)) return raw;
+      if (raw && typeof raw === "object") {
+        return Object.entries(raw).map(([status, count]) => ({
+          status: status as any,
+          count: Number(count),
+        }));
+      }
+      return [];
     },
     staleTime: 30000,
     placeholderData: keepPreviousData,

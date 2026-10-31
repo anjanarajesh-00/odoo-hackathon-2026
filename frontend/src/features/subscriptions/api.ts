@@ -55,11 +55,19 @@ export function useSubscription(id?: string) {
 export function useSubscriptionHistory(id?: string) {
   return useQuery({
     queryKey: ["subscriptions", id, "history"],
-    queryFn: async () => {
-      const res = await apiClient.get<{ data: SubscriptionHistoryItem[] }>(
+    queryFn: async (): Promise<SubscriptionHistoryItem[]> => {
+      const res = await apiClient.get<any>(
         `/subscriptions/${id}/history`
       );
-      return res.data.data;
+      const rawList = res.data?.data || [];
+      return rawList.map((h: any) => ({
+        id: h.id,
+        from: h.from || h.fromStatus,
+        to: h.to || h.toStatus,
+        by: h.by || h.changedBy || "System",
+        at: h.at || h.createdAt || new Date().toISOString(),
+        note: h.note || h.reason || null,
+      }));
     },
     enabled: Boolean(id),
   });

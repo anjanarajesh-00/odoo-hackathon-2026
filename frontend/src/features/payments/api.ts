@@ -34,10 +34,39 @@ export function usePayments(params: PaymentsParams) {
   return useQuery({
     queryKey: ["payments", params],
     queryFn: async () => {
-      const res = await apiClient.get<PaymentsResponse>("/payments", {
+      const res = await apiClient.get<any>("/payments", {
         params,
       });
-      return res.data;
+      const rawData = res.data?.data || [];
+      const total = res.data?.total ?? rawData.length;
+      const page = res.data?.page ?? 1;
+      const pageSize = res.data?.pageSize ?? 20;
+      const totalAmount = res.data?.summary?.totalAmount ?? res.data?.totalAmount ?? 0;
+
+      const mapped: Payment[] = rawData.map((p: any) => ({
+        id: p.id,
+        invoice: p.invoice || {
+          id: p.invoiceId || p.invoice_id,
+          number: p.invoiceNumber || p.invoice_number || p.invoiceId || "—",
+        },
+        customer: p.customer || {
+          id: p.customerId || p.customer_id || "",
+          name: p.customerName || p.customer_name || "Customer",
+        },
+        method: p.method,
+        amount: Number(p.amount || 0),
+        date: p.date,
+        note: p.note || null,
+        createdAt: p.createdAt || p.created_at,
+      }));
+
+      return {
+        data: mapped,
+        total,
+        page,
+        pageSize,
+        totalAmount,
+      };
     },
   });
 }
