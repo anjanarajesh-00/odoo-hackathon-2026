@@ -30,7 +30,7 @@ The frontend is built with:
 - **Tables & Visualization:** TanStack Table v8 (server-side pagination, sorting, search, URL query persistence) + Recharts
 - **Mock Layer:** Mock Service Worker (MSW v2) with mock database persisted to localStorage for standalone development (`VITE_USE_MOCKS=true`)
 
-### Frontend Setup
+### Frontend Setup->
 
 ```bash
 cd frontend
