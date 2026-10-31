@@ -15,6 +15,21 @@ export type InvoiceStatus =
 
 export type PlanState = "open" | "paused" | "closed";
 
+export type PaymentMethod =
+  | "cash"
+  | "card"
+  | "bank_transfer"
+  | "upi"
+  | "cheque";
+
+export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
+  cash: "Cash",
+  card: "Credit / Debit Card",
+  bank_transfer: "Bank Transfer",
+  upi: "UPI / Net Banking",
+  cheque: "Cheque / Demand Draft",
+};
+
 export type DisplayStatus =
   | SubscriptionStatus
   | InvoiceStatus

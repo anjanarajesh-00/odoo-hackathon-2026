@@ -10,16 +10,18 @@ import { ForgotPasswordPage } from "@/features/auth/pages/ForgotPasswordPage";
 import { ResetPasswordPage } from "@/features/auth/pages/ResetPasswordPage";
 import { ProductsPage } from "@/features/products/pages/ProductsPage";
 import { PlansPage } from "@/features/plans/pages/PlansPage";
+import { SubscriptionsPage } from "@/features/subscriptions/pages/SubscriptionsPage";
+import { SubscriptionDetailPage } from "@/features/subscriptions/pages/SubscriptionDetailPage";
+import { InvoicesPage } from "@/features/invoices/pages/InvoicesPage";
+import { InvoiceDetailPage } from "@/features/invoices/pages/InvoiceDetailPage";
+import { PaymentsPage } from "@/features/payments/pages/PaymentsPage";
+import { DashboardPage } from "@/features/dashboard/pages/DashboardPage";
+import { PortalPage } from "@/features/portal/pages/PortalPage";
 import {
-  DashboardPlaceholder,
-  SubscriptionsPlaceholder,
-  InvoicesPlaceholder,
-  PaymentsPlaceholder,
   CustomersPlaceholder,
   DiscountsPlaceholder,
   TaxesPlaceholder,
   StaffPlaceholder,
-  PortalPlaceholder,
 } from "./PlaceholderPages";
 import { useAuthStore } from "@/store/auth.store";
 
@@ -69,15 +71,15 @@ export const router = createBrowserRouter([
         path: "dashboard",
         element: (
           <RoleGuard allowedRoles={["admin", "staff"]}>
-            <DashboardPlaceholder />
+            <DashboardPage />
           </RoleGuard>
         ),
       },
       {
         path: "subscriptions",
         element: (
-          <RoleGuard allowedRoles={["admin", "staff", "customer"]}>
-            <SubscriptionsPlaceholder />
+          <RoleGuard allowedRoles={["admin", "staff"]}>
+            <SubscriptionsPage />
           </RoleGuard>
         ),
       },
@@ -85,15 +87,15 @@ export const router = createBrowserRouter([
         path: "subscriptions/:id",
         element: (
           <RoleGuard allowedRoles={["admin", "staff", "customer"]}>
-            <SubscriptionsPlaceholder />
+            <SubscriptionDetailPage />
           </RoleGuard>
         ),
       },
       {
         path: "invoices",
         element: (
-          <RoleGuard allowedRoles={["admin", "staff", "customer"]}>
-            <InvoicesPlaceholder />
+          <RoleGuard allowedRoles={["admin", "staff"]}>
+            <InvoicesPage />
           </RoleGuard>
         ),
       },
@@ -101,7 +103,7 @@ export const router = createBrowserRouter([
         path: "invoices/:id",
         element: (
           <RoleGuard allowedRoles={["admin", "staff", "customer"]}>
-            <InvoicesPlaceholder />
+            <InvoiceDetailPage />
           </RoleGuard>
         ),
       },
@@ -109,7 +111,7 @@ export const router = createBrowserRouter([
         path: "payments",
         element: (
           <RoleGuard allowedRoles={["admin", "staff"]}>
-            <PaymentsPlaceholder />
+            <PaymentsPage />
           </RoleGuard>
         ),
       },
@@ -165,7 +167,7 @@ export const router = createBrowserRouter([
         path: "portal",
         element: (
           <RoleGuard allowedRoles={["customer"]}>
-            <PortalPlaceholder />
+            <PortalPage />
           </RoleGuard>
         ),
       },

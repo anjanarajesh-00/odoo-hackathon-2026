@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Package,
@@ -26,11 +26,23 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  // Customer Portal
+  // Customer Portal Links
   {
-    label: "Customer Portal",
+    label: "Portal Overview",
     href: "/portal",
     icon: Building2,
+    roles: ["customer"],
+  },
+  {
+    label: "My Subscriptions",
+    href: "/portal?tab=subscriptions",
+    icon: FileCheck2,
+    roles: ["customer"],
+  },
+  {
+    label: "My Invoices",
+    href: "/portal?tab=invoices",
+    icon: FileText,
     roles: ["customer"],
   },
 
@@ -47,7 +59,7 @@ const navItems: NavItem[] = [
     label: "Subscriptions",
     href: "/subscriptions",
     icon: FileCheck2,
-    roles: ["admin", "staff", "customer"],
+    roles: ["admin", "staff"],
   },
 
   // Invoices & Billing
@@ -55,7 +67,7 @@ const navItems: NavItem[] = [
     label: "Invoices",
     href: "/invoices",
     icon: FileText,
-    roles: ["admin", "staff", "customer"],
+    roles: ["admin", "staff"],
   },
 
   // Payments
@@ -122,6 +134,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   onItemClick,
   collapsed = false,
 }) => {
+  const location = useLocation();
   if (!role) return null;
 
   const accessibleItems = navItems.filter((item) => item.roles.includes(role));
@@ -130,20 +143,26 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
     <nav className="space-y-1 px-2 py-4">
       {accessibleItems.map((item) => {
         const Icon = item.icon;
+        const isQueryLink = item.href.includes("?");
+        const isCurrentActive = isQueryLink
+          ? `${location.pathname}${location.search}` === item.href
+          : location.pathname === item.href && !location.search.includes("tab=");
+
         return (
           <NavLink
             key={item.href}
             to={item.href}
             onClick={onItemClick}
-            className={({ isActive }) =>
-              cn(
+            className={({ isActive }) => {
+              const active = isQueryLink ? isCurrentActive : isActive;
+              return cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                isActive
+                active
                   ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold"
                   : "text-sidebar-foreground/75 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
                 collapsed && "justify-center px-2"
-              )
-            }
+              );
+            }}
             title={collapsed ? item.label : undefined}
           >
             <Icon className="w-5 h-5 shrink-0" />
