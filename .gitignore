@@ -26,5 +26,6 @@ dist-ssr
 .env
 mysql-data/
 *.sqlite
-frontend-mock/
+*.rar
+*.zip
 
