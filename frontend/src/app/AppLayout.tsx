@@ -58,25 +58,22 @@ export const AppLayout: React.FC = () => {
         )}
       >
         {/* Brand Header */}
-        <div className="h-16 flex items-center justify-between px-5 border-b border-sidebar-border">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-sm">
-              <Sparkles className="w-4 h-4" />
+        <div className="h-14 flex items-center justify-between px-4 border-b border-sidebar-border">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-control bg-primary flex items-center justify-center text-primary-foreground font-mono text-[11px] font-bold">
+              BL
             </div>
             <div>
-              <span className="font-bold text-base tracking-tight text-sidebar-foreground">
+              <span className="font-semibold text-sm tracking-tight text-sidebar-foreground">
                 Brightloop
-              </span>
-              <span className="block text-[10px] uppercase font-semibold text-muted-foreground tracking-wider -mt-1">
-                Billing OS
               </span>
             </div>
           </div>
           <button
             onClick={() => setMobileOpen(false)}
-            className="md:hidden p-1.5 rounded-lg text-sidebar-foreground/70 hover:bg-sidebar-accent"
+            className="md:hidden p-1 rounded-control text-sidebar-foreground/70 hover:bg-sidebar-accent"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
