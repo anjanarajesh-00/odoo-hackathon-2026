@@ -13,24 +13,30 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
 }) => {
   const normalized = (status || "").toLowerCase() as DisplayStatus;
   const config = STATUS_COLORS[normalized] || {
-    bg: "bg-slate-100",
-    text: "text-slate-700",
-    border: "border-slate-300",
+    dot: "#8C8982",
+    text: "#575551",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
     label: status,
   };
 
   return (
     <span
+      style={{
+        backgroundColor: config.bg,
+        color: config.text,
+        borderColor: config.border || "#DCDAD4",
+      }}
       className={cn(
-        "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider border",
-        config.bg,
-        config.text,
-        config.border || "border-transparent",
+        "inline-flex items-center gap-[6px] px-2 py-[2px] rounded-control text-xs font-medium border shrink-0",
         className
       )}
     >
-      {config.label}
+      <span
+        style={{ backgroundColor: config.dot }}
+        className="w-[6px] h-[6px] rounded-full shrink-0"
+      />
+      <span>{config.label}</span>
     </span>
   );
 };
-

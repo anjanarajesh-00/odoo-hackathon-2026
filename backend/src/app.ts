@@ -19,6 +19,7 @@ import subscriptionRouter from './modules/05_subscriptions/subscription.routes.j
 import invoiceRouter from './modules/06_invoices/invoice.routes.js';
 import paymentRouter from './modules/08_payments/payment.routes.js';
 import reportingRouter from './modules/09_reporting/reporting.routes.js';
+import portalRouter from './modules/10_portal/portal.routes.js';
 
 export const createApp = (): Application => {
   const app = express();
@@ -77,6 +78,7 @@ export const createApp = (): Application => {
   app.use('/api/v1/invoices', invoiceRouter);
   app.use('/api/v1/payments', paymentRouter);
   app.use('/api/v1/dashboard', reportingRouter);
+  app.use('/api/v1/portal', portalRouter);
 
   // 404 Not Found Catch-All
   app.use((_req: Request, _res: Response, next: NextFunction) => {

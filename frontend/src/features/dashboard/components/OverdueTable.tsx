@@ -39,7 +39,7 @@ export const OverdueTable: React.FC<OverdueTableProps> = ({
             e.stopPropagation();
             navigate(`/invoices/${row.original.id}`);
           }}
-          className="font-semibold text-primary hover:underline cursor-pointer"
+          className="font-mono font-medium text-brand-verdigris hover:underline cursor-pointer"
         >
           {row.original.number}
         </span>
@@ -56,25 +56,28 @@ export const OverdueTable: React.FC<OverdueTableProps> = ({
     },
     {
       accessorKey: "balance",
+      meta: { align: "right" },
       header: "Balance Due",
       cell: ({ row }) => (
-        <span className="font-bold text-rose-600">
+        <span className="font-mono tabular-nums font-medium text-danger-cinnabar">
           {formatCurrency(row.original.balance)}
         </span>
       ),
     },
     {
       accessorKey: "dueDate",
+      meta: { align: "right" },
       header: "Due Date",
       cell: ({ row }) => (
-        <span className="text-muted-foreground">{formatDate(row.original.dueDate)}</span>
+        <span className="font-mono tabular-nums text-ink-secondary">{formatDate(row.original.dueDate)}</span>
       ),
     },
     {
       accessorKey: "daysOverdue",
+      meta: { align: "right" },
       header: "Days Overdue",
       cell: ({ row }) => (
-        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-rose-100 text-rose-700 border border-rose-300">
+        <span className="font-mono tabular-nums inline-block px-1.5 py-0.5 rounded-control text-xs font-medium bg-danger-tint text-danger-cinnabar border border-danger-border">
           {row.original.daysOverdue} days
         </span>
       ),
@@ -82,13 +85,10 @@ export const OverdueTable: React.FC<OverdueTableProps> = ({
   ];
 
   return (
-    <div className="bg-card border border-border rounded-xl shadow-sm p-5 space-y-4">
+    <div className="bg-card border border-border rounded-container p-5 space-y-4">
       {/* Header with "View all" deep link */}
       <div className="flex items-center justify-between border-b border-border pb-3">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center">
-            <AlertCircle className="w-4 h-4" />
-          </div>
           <div>
             <h3 className="text-sm font-bold text-foreground">
               Overdue Invoices
@@ -104,7 +104,7 @@ export const OverdueTable: React.FC<OverdueTableProps> = ({
           className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
         >
           <span>View all overdue</span>
-          <ArrowRight className="w-3.5 h-3.5" />
+          
         </Link>
       </div>
 

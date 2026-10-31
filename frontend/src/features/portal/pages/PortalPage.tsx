@@ -92,7 +92,7 @@ export const PortalPage: React.FC = () => {
       accessorKey: "number",
       header: "Subscription #",
       cell: ({ row }) => (
-        <span className="font-semibold text-primary hover:underline cursor-pointer">
+        <span className="font-mono font-medium text-brand-verdigris hover:underline cursor-pointer">
           {row.original.number}
         </span>
       ),
@@ -118,9 +118,10 @@ export const PortalPage: React.FC = () => {
     },
     {
       accessorKey: "startDate",
+      meta: { align: "right" },
       header: "Start Date",
       cell: ({ row }) => (
-        <span className="text-muted-foreground">{formatDate(row.original.startDate)}</span>
+        <span className="font-mono tabular-nums text-ink-secondary">{formatDate(row.original.startDate)}</span>
       ),
     },
     {
@@ -162,23 +163,25 @@ export const PortalPage: React.FC = () => {
       accessorKey: "number",
       header: "Invoice #",
       cell: ({ row }) => (
-        <span className="font-semibold text-primary hover:underline cursor-pointer">
+        <span className="font-mono font-medium text-brand-verdigris hover:underline cursor-pointer">
           {row.original.number}
         </span>
       ),
     },
     {
       accessorKey: "invoiceDate",
+      meta: { align: "right" },
       header: "Invoice Date",
       cell: ({ row }) => (
-        <span className="text-muted-foreground">{formatDate(row.original.invoiceDate)}</span>
+        <span className="font-mono tabular-nums text-ink-secondary">{formatDate(row.original.invoiceDate)}</span>
       ),
     },
     {
       accessorKey: "dueDate",
+      meta: { align: "right" },
       header: "Due Date",
       cell: ({ row }) => (
-        <span className="text-muted-foreground">{formatDate(row.original.dueDate)}</span>
+        <span className="font-mono tabular-nums text-ink-secondary">{formatDate(row.original.dueDate)}</span>
       ),
     },
     {
@@ -193,9 +196,10 @@ export const PortalPage: React.FC = () => {
     },
     {
       accessorKey: "total",
+      meta: { align: "right" },
       header: "Amount",
       cell: ({ row }) => (
-        <span className="font-semibold text-foreground">
+        <span className="font-mono tabular-nums font-medium text-ink-primary">
           {formatCurrency(row.original.total)}
         </span>
       ),
@@ -250,7 +254,7 @@ export const PortalPage: React.FC = () => {
       <div className="border-b border-border pb-4 space-y-1">
         <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
           <span>Welcome, {user?.name || "Customer"}!</span>
-          <Sparkles className="w-5 h-5 text-primary" />
+          
         </h1>
         <p className="text-xs sm:text-sm text-muted-foreground">
           Self-service portal for reviewing active contracts, billing schedules and tax receipts.
@@ -262,15 +266,13 @@ export const PortalPage: React.FC = () => {
         {/* 1. Active Subscriptions Card */}
         <div
           onClick={() => updateParams({ tab: "subscriptions", subStatus: "active", subPage: 1 })}
-          className="p-5 bg-card border border-border rounded-xl shadow-sm hover:border-primary/50 cursor-pointer transition-all space-y-2 group"
+          className="p-5 bg-card border border-border rounded-container hover:border-brand-verdigris cursor-pointer transition-colors space-y-2 group"
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Active Subscriptions
             </span>
-            <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-              <FileCheck2 className="w-4 h-4" />
-            </div>
+            
           </div>
           {isSummaryLoading ? (
             <div className="h-7 bg-muted animate-pulse rounded w-1/3" />
@@ -299,7 +301,7 @@ export const PortalPage: React.FC = () => {
         {/* 2. Outstanding Balance Card */}
         <div
           onClick={() => updateParams({ tab: "invoices", invStatus: "confirmed", invPage: 1 })}
-          className="p-5 bg-card border border-border rounded-xl shadow-sm hover:border-primary/50 cursor-pointer transition-all space-y-2 group"
+          className="p-5 bg-card border border-border rounded-container hover:border-brand-verdigris cursor-pointer transition-colors space-y-2 group"
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">

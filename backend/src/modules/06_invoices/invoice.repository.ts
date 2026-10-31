@@ -26,7 +26,8 @@ export class InvoiceRepository {
 
   async create(
     inv: Partial<Invoice>,
-    lines: Partial<InvoiceLine>[] = []
+    lines: Partial<InvoiceLine>[] = [],
+    appliedDiscountId?: string
   ): Promise<InvoiceResponseDto> {
     const trx = await this.db.transaction();
     try {
@@ -44,6 +45,12 @@ export class InvoiceRepository {
           updated_at: new Date(),
         }));
         await trx('invoice_lines').insert(lineRows);
+      }
+
+      if (appliedDiscountId) {
+        await trx('discounts')
+          .where({ id: appliedDiscountId })
+          .increment('used_count', 1);
       }
 
       await trx.commit();

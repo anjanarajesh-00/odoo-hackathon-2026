@@ -22,6 +22,24 @@ export interface PaymentResponseDto {
   createdAt: string;
 }
 
+export interface PaymentListItemDto {
+  id: string;
+  invoiceId: string;
+  invoice: {
+    id: string;
+    number: string;
+  };
+  customer: {
+    id: string;
+    name: string;
+  };
+  method: PaymentMethod;
+  amount: number;
+  date: string;
+  note?: string | null;
+  createdAt: string;
+}
+
 export interface RecordPaymentResultDto {
   payment: PaymentResponseDto;
   invoice: InvoiceResponseDto;

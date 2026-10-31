@@ -55,14 +55,17 @@ export class PaymentRepository {
     method?: string;
     dateFrom?: string;
     dateTo?: string;
+    search?: string;
     page?: number;
     pageSize?: number;
-  }): Promise<{ payments: Payment[]; total: number }> {
+  }): Promise<{ payments: any[]; total: number; totalAmount: number }> {
     const page = filter?.page && filter.page > 0 ? filter.page : 1;
     const pageSize = filter?.pageSize && filter.pageSize > 0 ? filter.pageSize : 20;
     const offset = (page - 1) * pageSize;
 
-    let query = this.db('payments as p').leftJoin('invoices as i', 'p.invoice_id', 'i.id');
+    let query = this.db('payments as p')
+      .leftJoin('invoices as i', 'p.invoice_id', 'i.id')
+      .leftJoin('customers as c', 'i.customer_id', 'c.id');
 
     if (filter?.invoiceId) {
       query = query.where('p.invoice_id', filter.invoiceId);
@@ -84,16 +87,37 @@ export class PaymentRepository {
       query = query.where('p.date', '<=', filter.dateTo);
     }
 
-    const countResult = await query.clone().count<{ count: string | number }>('p.id as count').first();
-    const total = Number(countResult?.count || 0);
+    if (filter?.search) {
+      const s = `%${filter.search}%`;
+      query = query.where((qb) => {
+        qb.where('i.number', 'like', s).orWhere('c.name', 'like', s);
+      });
+    }
+
+    const summaryResult = await query
+      .clone()
+      .select(
+        this.db.raw('COUNT(p.id) as count'),
+        this.db.raw('COALESCE(SUM(p.amount), 0) as total_amount')
+      )
+      .first();
+
+    const total = Number((summaryResult as any)?.count || 0);
+    const totalAmount = Number((summaryResult as any)?.total_amount || 0);
 
     const payments = await query
-      .select('p.*')
+      .select(
+        'p.*',
+        'i.number as invoice_number',
+        'i.customer_id as invoice_customer_id',
+        'c.id as customer_id',
+        'c.name as customer_name'
+      )
       .orderBy('p.date', 'desc')
       .limit(pageSize)
       .offset(offset);
 
-    return { payments, total };
+    return { payments, total, totalAmount };
   }
 }
 

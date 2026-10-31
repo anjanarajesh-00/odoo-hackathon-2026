@@ -59,12 +59,18 @@ export function useGenerateInvoices() {
 
   return useMutation({
     mutationFn: async (data?: GenerateInvoicesInput) => {
-      const res = await apiClient.post<GenerateInvoicesResponse>("/invoices/generate", data || {});
-      return res.data.data;
+      const res = await apiClient.post<any>("/invoices/generate", data || {});
+      const raw = res.data?.data || res.data;
+      return {
+        created: raw.created ?? raw.createdCount ?? 0,
+        skipped: raw.skipped ?? raw.skippedCount ?? 0,
+        invoiceIds: raw.invoiceIds ?? [],
+      };
     },
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
       queryClient.invalidateQueries({ queryKey: ["subscriptions"] });
+      queryClient.invalidateQueries({ queryKey: ["discounts"] });
       toast.success(`${result.created} invoices created, ${result.skipped} skipped`);
     },
     onError: (err: any) => {
@@ -138,13 +144,12 @@ export function useSendInvoice() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const res = await apiClient.post<{ data: Invoice }>(`/invoices/${id}/send`);
-      return res.data.data;
+      const res = await apiClient.post<any>(`/invoices/${id}/send`);
+      return res.data?.data || res.data;
     },
-    onSuccess: (updated) => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
-      queryClient.invalidateQueries({ queryKey: ["invoices", updated.id] });
-      toast.success(`Invoice "${updated.number}" sent to customer`);
+      toast.success(res?.message || "Invoice sent to customer");
     },
     onError: (err: any) => {
       const msg = err?.response?.data?.message || "Failed to send invoice";

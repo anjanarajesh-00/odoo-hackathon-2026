@@ -150,7 +150,8 @@ export class InvoiceService {
           amount_paid: 0,
           balance,
         },
-        invoiceLinesToInsert
+        invoiceLinesToInsert,
+        discountEval.appliedDiscountId
       );
 
       // Advance next_invoice_date on subscription
@@ -259,6 +260,10 @@ export class InvoiceService {
   async sendInvoice(id: string): Promise<{ message: string }> {
     const inv = await invoiceRepository.findById(id);
     if (!inv) throw AppError.notFound(`Invoice "${id}" not found`);
+
+    if (inv.status === 'draft') {
+      throw AppError.conflict('Cannot send a draft invoice. Please confirm the invoice first.');
+    }
 
     console.log(`\n📧 [Invoice Dispatched] Invoice ${inv.number} sent to customer ${inv.customer.name}\n`);
     return { message: `Invoice ${inv.number} has been emailed to the customer.` };

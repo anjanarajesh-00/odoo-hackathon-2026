@@ -451,6 +451,7 @@ export async function seed(knex: Knex): Promise<void> {
   const invoiceRows: any[] = [];
   const invLineRows: any[] = [];
   const paymentRows: any[] = [];
+  const subInvoiceMonthCount = new Map<string, number>();
 
   const invoiceStatuses = ['paid', 'confirmed', 'draft', 'cancelled'];
   const paymentMethods = ['bank_transfer', 'card', 'upi', 'cash', 'cheque'];
@@ -462,8 +463,11 @@ export async function seed(knex: Knex): Promise<void> {
     const sub = subscriptionRows[subIdx - 1];
     const customerId = sub.customer_id;
 
-    // Period math
-    const month = String(((i % 10) + 1)).padStart(2, '0');
+    // Ensure completely unique period_start per subscription
+    const monthOffset = subInvoiceMonthCount.get(sub.id) || 0;
+    subInvoiceMonthCount.set(sub.id, monthOffset + 1);
+    const monthNum = (monthOffset % 12) + 1;
+    const month = String(monthNum).padStart(2, '0');
     const periodStart = `2026-${month}-01`;
     const periodEnd = `2026-${month}-28`;
     const invoiceDate = periodStart;

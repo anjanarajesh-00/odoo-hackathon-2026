@@ -24,4 +24,7 @@ dist-ssr
 *.sw?
 *.tsbuildinfo
 .env
+mysql-data/
+*.sqlite
+frontend-mock/
 

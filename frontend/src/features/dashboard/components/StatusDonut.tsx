@@ -5,13 +5,13 @@ import type { SubscriptionsByStatusItem } from "../schemas";
 import { PieChart as PieIcon, RefreshCw } from "lucide-react";
 import type { SubscriptionStatus } from "@/types/enums";
 
-// Matching StatusBadge colors dynamically via CSS HSL theme tokens (no hardcoded hex)
+// Matching StatusBadge colors dynamically via DESIGN.md semantic mappings
 const STATUS_CHART_COLORS: Record<SubscriptionStatus, string> = {
-  active: "hsl(142, 71%, 45%)",    // Emerald
-  confirmed: "hsl(217, 91%, 60%)", // Blue
-  quotation: "hsl(38, 92%, 50%)",  // Amber
-  draft: "hsl(215, 16%, 65%)",     // Gray / Slate
-  closed: "hsl(222, 47%, 25%)",    // Dark Slate
+  active: "#0A5C52",     // Brand Verdigris
+  confirmed: "#1D4ED8",  // Info Cobalt
+  quotation: "#C27803",  // Warn Ochre
+  draft: "#8C8982",      // Ash / Ink Muted
+  closed: "#141413",     // Deep Carbon
 };
 
 interface StatusDonutProps {
@@ -36,21 +36,16 @@ export const StatusDonut: React.FC<StatusDonutProps> = ({
   };
 
   return (
-    <div className="p-5 bg-card border border-border rounded-xl shadow-sm flex flex-col justify-between space-y-4">
+    <div className="p-5 bg-card border border-border rounded-container flex flex-col justify-between space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
-            <PieIcon className="w-4 h-4" />
-          </div>
-          <div>
-            <h3 className="text-sm font-bold text-foreground">
-              Subscriptions by Status
-            </h3>
-            <p className="text-xs text-muted-foreground">
-              Total: {totalSubs} contracts
-            </p>
-          </div>
+        <div>
+          <h3 className="text-sm font-semibold text-foreground">
+            Subscriptions by Status
+          </h3>
+          <p className="text-xs text-muted-foreground font-mono">
+            Total: {totalSubs} contracts
+          </p>
         </div>
       </div>
 
@@ -87,11 +82,11 @@ export const StatusDonut: React.FC<StatusDonutProps> = ({
                   <Tooltip
                     formatter={(value: any, name: any) => [`${value} subscriptions`, name]}
                     contentStyle={{
-                      backgroundColor: "hsl(var(--card))",
-                      borderColor: "hsl(var(--border))",
-                      borderRadius: "8px",
+                      backgroundColor: "var(--bg-surface)",
+                      borderColor: "var(--border-hairline)",
+                      borderRadius: "var(--radius-control)",
                       fontSize: "12px",
-                      boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                      boxShadow: "var(--shadow-modal)",
                     }}
                   />
                   <Pie
@@ -107,7 +102,7 @@ export const StatusDonut: React.FC<StatusDonutProps> = ({
                     {data.map((entry) => (
                       <Cell
                         key={`cell-${entry.status}`}
-                        fill={STATUS_CHART_COLORS[entry.status] || "hsl(var(--primary))"}
+                        fill={STATUS_CHART_COLORS[entry.status as SubscriptionStatus] || "var(--brand-verdigris)"}
                       />
                     ))}
                   </Pie>

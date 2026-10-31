@@ -15,7 +15,7 @@ export const PasswordRules: React.FC<PasswordRulesProps> = ({
   const rules = checkPasswordRules(password);
 
   const items = [
-    { label: "More than 8 characters (min. 9)", valid: rules.minChars },
+    { label: "9+ characters", valid: rules.minChars },
     { label: "At least one uppercase letter", valid: rules.hasUpper },
     { label: "At least one lowercase letter", valid: rules.hasLower },
     { label: "At least one special character", valid: rules.hasSpecial },

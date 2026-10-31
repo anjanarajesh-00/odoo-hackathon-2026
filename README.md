@@ -1,8 +1,7 @@
 # Brightloop Subscription Management System
+Project submission for Odoo x Make-A-Ton 9.0 Kochi Hackathon 2026.
 
 A unified software platform that runs the full life of a subscription business, from setting up products and plans to managing quotation-to-subscription lifecycles, automated billing, payment reconciliation, and recurring revenue analytics.
-
-Built for the **Odoo Hackathon 2026**.
 
 ---
 
@@ -53,7 +52,7 @@ The frontend will run at `http://localhost:5173`.
 The backend provides a RESTful API powering subscriptions, billing, products, plans, and reporting.
 
 - **Stack:** Express, TypeScript, Knex.js SQL query builder & migrations
-- **Authentication:** Local JWT / Supabase Auth provider adapters
+- **Database:** Dual-database compatibility (Supabase PostgreSQL / Local MySQL / SQLite) adhering to Frontend ↔ Backend API Contract v0.1.
 
 ### Backend Setup
 
@@ -61,11 +60,12 @@ The backend provides a RESTful API powering subscriptions, billing, products, pl
 cd backend
 npm install
 cp .env.example .env
-# Run migrations and seed data
 npm run migrate
 npm run seed
 npm run dev
 ```
+
+For full setup instructions, database switching details, and API documentation, see [`backend/README.md`](./backend/README.md).
 
 ---
 
@@ -74,3 +74,4 @@ npm run dev
 - `main`: Production release branch.
 - `backend`: Backend feature development.
 - `v1`: Combined release candidate containing both `frontend/` and `backend/`.
+- `integration`: Active integration branch combining real backend with frontend.

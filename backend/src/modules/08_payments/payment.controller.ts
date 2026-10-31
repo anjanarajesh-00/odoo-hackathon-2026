@@ -8,7 +8,13 @@ export class PaymentController {
     try {
       const query = paymentQuerySchema.parse(req.query);
       const result = await paymentService.listPayments(query, req.user!);
-      sendList(res, result.data, result.total, result.page, result.pageSize);
+      res.status(200).json({
+        data: result.data,
+        total: result.total,
+        page: result.page,
+        pageSize: result.pageSize,
+        summary: result.summary,
+      });
     } catch (error) {
       next(error);
     }

@@ -34,74 +34,109 @@ export type DisplayStatus =
   | SubscriptionStatus
   | InvoiceStatus
   | PlanState
-  | "overdue";
+  | "overdue"
+  | "scheduled"
+  | "expired"
+  | "exhausted";
 
 export interface StatusStyle {
-  bg: string;
+  dot: string;
   text: string;
+  bg: string;
   border?: string;
   label: string;
 }
 
 export const STATUS_COLORS: Record<DisplayStatus, StatusStyle> = {
   draft: {
-    bg: "bg-slate-100",
-    text: "text-slate-700",
-    border: "border-slate-300",
+    dot: "#8C8982",
+    text: "#575551",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
     label: "Draft",
   },
+  cancelled: {
+    dot: "#8C8982",
+    text: "#575551",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
+    label: "Cancelled",
+  },
   quotation: {
-    bg: "bg-amber-100",
-    text: "text-amber-800",
-    border: "border-amber-300",
+    dot: "#C27803",
+    text: "#141413",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
     label: "Quotation",
   },
+  paused: {
+    dot: "#C27803",
+    text: "#141413",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
+    label: "Paused",
+  },
   confirmed: {
-    bg: "bg-blue-100",
-    text: "text-blue-800",
-    border: "border-blue-300",
+    dot: "#1D4ED8",
+    text: "#141413",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
     label: "Confirmed",
   },
   active: {
-    bg: "bg-emerald-100",
-    text: "text-emerald-800",
-    border: "border-emerald-300",
+    dot: "#0A5C52",
+    text: "#141413",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
     label: "Active",
   },
   open: {
-    bg: "bg-emerald-100",
-    text: "text-emerald-800",
-    border: "border-emerald-300",
+    dot: "#0A5C52",
+    text: "#141413",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
     label: "Open",
   },
-  paused: {
-    bg: "bg-amber-100",
-    text: "text-amber-800",
-    border: "border-amber-300",
-    label: "Paused",
-  },
   paid: {
-    bg: "bg-emerald-100",
-    text: "text-emerald-800",
-    border: "border-emerald-300",
+    dot: "#0A5C52",
+    text: "#0A5C52",
+    bg: "#EBF3F1",
+    border: "#DCDAD4",
     label: "Paid",
   },
   closed: {
-    bg: "bg-slate-200",
-    text: "text-slate-800",
-    border: "border-slate-400",
+    dot: "#141413",
+    text: "#575551",
+    bg: "#EFECE6",
+    border: "#DCDAD4",
     label: "Closed",
   },
-  cancelled: {
-    bg: "bg-zinc-100",
-    text: "text-zinc-500",
-    border: "border-zinc-300",
-    label: "Cancelled",
-  },
   overdue: {
-    bg: "bg-rose-100",
-    text: "text-rose-800",
-    border: "border-rose-300",
+    dot: "#B82E1F",
+    text: "#B82E1F",
+    bg: "#FCEEEB",
+    border: "#F5C6C0",
     label: "Overdue",
+  },
+  scheduled: {
+    dot: "#1D4ED8",
+    text: "#141413",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
+    label: "Scheduled",
+  },
+  expired: {
+    dot: "#8C8982",
+    text: "#575551",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
+    label: "Expired",
+  },
+  exhausted: {
+    dot: "#C27803",
+    text: "#141413",
+    bg: "#FFFFFF",
+    border: "#DCDAD4",
+    label: "Exhausted",
   },
 };

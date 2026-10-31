@@ -108,7 +108,7 @@ export const SubscriptionsPage: React.FC = () => {
       accessorKey: "number",
       header: "Subscription #",
       cell: ({ row }) => (
-        <span className="font-semibold text-primary hover:underline cursor-pointer">
+        <span className="font-mono font-medium text-brand-verdigris hover:underline cursor-pointer">
           {row.original.number}
         </span>
       ),
@@ -150,13 +150,15 @@ export const SubscriptionsPage: React.FC = () => {
     },
     {
       accessorKey: "startDate",
+      meta: { align: "right" },
       header: "Start Date",
       cell: ({ row }) => (
-        <span className="text-muted-foreground">{formatDate(row.original.startDate)}</span>
+        <span className="font-mono tabular-nums text-ink-secondary">{formatDate(row.original.startDate)}</span>
       ),
     },
     {
       accessorKey: "expiryDate",
+      meta: { align: "right" },
       header: "Expiry Date",
       cell: ({ row }) => {
         const expiry = new Date(row.original.expiryDate).getTime();
@@ -165,11 +167,10 @@ export const SubscriptionsPage: React.FC = () => {
         const isExpiringSoon = daysLeft <= 30 && daysLeft > 0 && row.original.status === "active";
 
         return (
-          <div className="space-y-0.5">
-            <span className="text-foreground">{formatDate(row.original.expiryDate)}</span>
+          <div className="space-y-0.5 text-right">
+            <span className="font-mono tabular-nums text-ink-primary">{formatDate(row.original.expiryDate)}</span>
             {isExpiringSoon && (
-              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-rose-100 text-rose-700 block w-fit">
-                <Clock className="w-3 h-3" />
+              <span className="inline-block px-1.5 py-0.5 rounded-control text-[10px] font-medium bg-danger-tint text-danger-cinnabar border border-danger-border ml-auto">
                 {daysLeft} days left
               </span>
             )}
@@ -179,9 +180,10 @@ export const SubscriptionsPage: React.FC = () => {
     },
     {
       accessorKey: "total",
+      meta: { align: "right" },
       header: "Total",
       cell: ({ row }) => (
-        <span className="font-bold text-foreground">
+        <span className="font-mono tabular-nums font-medium text-ink-primary">
           {formatCurrency(row.original.total)}
         </span>
       ),
